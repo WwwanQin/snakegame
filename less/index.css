@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.main {
+  position: relative;
+  width: 90%;
+  left: 50px;
+  top: 50px;
+}
+.gameMap {
+  position: absolute;
+  top: 50px;
+  border: 1px solid #e2cbcb;
+  background-color: #b3ac9b;
+}
+#start,
+#pause {
+  border: 1px solid #cbc4c4;
+  background-color: darkorange;
+  color: #524f4f;
+  outline: none;
+  display: inline-block;
+  width: 120px;
+  height: 40px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 18px;
+}
