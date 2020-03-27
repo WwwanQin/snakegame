@@ -15,6 +15,14 @@
         gmp.style.height = `${this.height}px`;
         this.ele.appendChild(gmp);
         new food(this.atom,this.atom,this.xSize,this.ysize,gmp).createFood();
+        const s1 = new snake(this.atom,this.atom,gmp);
+        s1.createSnake();
+        window.time = setInterval(() => {
+            s1.run();
+        },150)
+    }
+    GameMap.prototype.pause = function(){
+        clearInterval(window.time);
     }
     // 展示网格
     GameMap.prototype.createGrid = function(){
