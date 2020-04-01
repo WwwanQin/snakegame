@@ -12,10 +12,4 @@
     pause.addEventListener('click',() => {
         gameMap.pause();
     })
-    openFrid.addEventListener('click',() => {
-        gameMap.createGrid();
-    })
-    closeFrid.addEventListener('click',() => {
-        gameMap.closeGrid();
-    })
 })()
