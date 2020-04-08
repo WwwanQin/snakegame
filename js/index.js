@@ -7,6 +7,7 @@
     start.addEventListener('click',() => {
         gameMap.creareMap();
     })
+    start.click();
     pause.addEventListener('click',() => {
         let flag = pause.getAttribute('data-id');
         console.log();

@@ -21,15 +21,15 @@
             f1.createFood();
             this.s1 = new snake(this.atom,this.atom,gmp,f1);
             this.s1.createSnake();
-            window.time = setInterval(() => {
+            global.time = setInterval(() => {
                 this.s1.run();
             },150)
         }
         pause(){
-            clearInterval(window.time);
+            clearInterval(global.time);
         }
         start(){
-            window.time = setInterval(() => {
+            global.time = setInterval(() => {
                 this.s1.run();
             },150)
         }

@@ -1,4 +1,7 @@
 ;(function(global){
+    global.serverAddress = 'ws://127.0.0.1:8080';
+    global.wsconn = new conn(global.serverAddress);
+    let wsconn = global.wsconn;
     var fangxaing = 'right'
     class snake{
         constructor(width,height,ele,food){
@@ -40,6 +43,12 @@
         }
         // 蛇的运动
         run(){
+            // 监听方向
+            wsconn.getPosition().then(res => {
+                let {data} = res;
+                fangxaing = data || 'right';
+                console.log(`得到的方向${fangxaing}`);
+            })
             // 判断是否吃自己
             for (let i = 1; i < this.snakeArrs.length; i++) {
                 if(this.snakeArrs[0].x == this.snakeArrs[i].x && 
@@ -96,12 +105,14 @@
     }
     // 获取键盘方向事件
     document.querySelector('body').addEventListener('keydown',(e) =>{
+        let position = 'right'
         switch(e.keyCode){
-            case 38 : fangxaing = 'top'; break;
-            case 40 : fangxaing = 'bottom'; break;
-            case 39 : fangxaing = 'right'; break;
-            case 37 : fangxaing = 'left'; break;
+            case 38 : position = 'top'; break;
+            case 40 : position = 'bottom'; break;
+            case 39 : position = 'right'; break;
+            case 37 : position = 'left'; break;
         }
+        wsconn.sendPosition(position);
     })
     const getBgc = function(){
         return `rgb(${Math.floor(Math.random()*254)},${Math.floor(Math.random()*254)},${Math.floor(Math.random()*254)}`;
