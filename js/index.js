@@ -3,11 +3,16 @@
     window.time = time;
     const start = document.querySelector('#start');
     const pause = document.querySelector('#pause');
-    const gameMap = new GameMap(document.querySelector('.main'))
+    const gameMap = new GameMap(document.querySelector('.main'));
+    let wsconn = window.wsconn;
     start.addEventListener('click',() => {
-        gameMap.creareMap();
+        let startQueue = JSON.parse(localStorage.getItem('gameCode'));
+        let gameCode;
+        gameCode = startQueue ?  startQueue.gameCode : new Date().getTime();
+        localStorage.setItem('gameCode',JSON.stringify({gameCode:gameCode}));
+        sendStartGame(gameCode);
+        // gameMap.createMap();
     })
-    start.click();
     pause.addEventListener('click',() => {
         let flag = pause.getAttribute('data-id');
         console.log();
@@ -19,4 +24,12 @@
             pause.setAttribute('data-id','true');
         }
     })
+    // 发送一个开始请求到后台
+    function sendStartGame(id){
+        let sendMessage = {};
+        sendMessage.id = id;
+        sendMessage.message = 'gameStart';
+        wsconn.sendPosition(JSON.stringify(sendMessage));
+    }
+    // 获取连接状态
 })()

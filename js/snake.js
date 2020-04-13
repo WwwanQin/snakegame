@@ -43,11 +43,12 @@
         }
         // 蛇的运动
         run(){
-            // 监听方向
+            // 监听方向接收服务端广播的值
             wsconn.getPosition().then(res => {
-                let {data} = res;
-                fangxaing = data || 'right';
-                console.log(`得到的方向${fangxaing}`);
+                res = JSON.parse(res);
+                if(res.type == 'snakeRun'){
+                    fangxaing = res.message;
+                }
             })
             // 判断是否吃自己
             for (let i = 1; i < this.snakeArrs.length; i++) {
@@ -58,8 +59,8 @@
                 }
             }
             // 判断是否吃到了食物
-            if(this.snakeArrs[0].x == this.food.xDistance && 
-                this.snakeArrs[0].y == this.food.yDistance){
+            if(this.snakeArrs[0].x * this.width == this.food.xDistance && 
+                this.snakeArrs[0].y * this.height == this.food.yDistance){
                     this.snakeArrs.push({
                         x: null,
                         y: null,
@@ -67,7 +68,7 @@
                         rgb: getBgc()
                     });
                     this.food.removeFood();
-                    this.food.createFood();
+                    wsconn.sendPosition(JSON.stringify({message: 'eatFood'}));
             }
             // 蛇的运动
             for(let i = this.snakeArrs.length-1 ;i>0; i--){
@@ -112,7 +113,10 @@
             case 39 : position = 'right'; break;
             case 37 : position = 'left'; break;
         }
-        wsconn.sendPosition(position);
+        let sendMessage = {};
+        sendMessage.message = 'snakeRun'
+        sendMessage.position = position;
+        wsconn.sendPosition(JSON.stringify(sendMessage));
     })
     const getBgc = function(){
         return `rgb(${Math.floor(Math.random()*254)},${Math.floor(Math.random()*254)},${Math.floor(Math.random()*254)}`;

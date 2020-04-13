@@ -7,10 +7,10 @@
             this.xSize = this.width / this.atom;
             this.ySize = this.height / this.atom;
             this.ele = ele;
-            this.s1 = null;
         }
         // 构建地图
-        creareMap(){
+        createMap(){
+            console.log(1);
             let gmp = document.createElement('div');
             gmp.className = 'gameMap'
             gmp.style.width = `${this.width}px`;
@@ -18,19 +18,13 @@
             this.ele.appendChild(gmp);
             const f1 = new food(this.atom,this.atom,this.xSize,this.ySize,gmp);
             f1.removeFood();
-            f1.createFood();
-            this.s1 = new snake(this.atom,this.atom,gmp,f1);
-            this.s1.createSnake();
-            global.time = setInterval(() => {
-                this.s1.run();
-            },150)
         }
         pause(){
             clearInterval(global.time);
         }
         start(){
             global.time = setInterval(() => {
-                this.s1.run();
+                global.s1.run();
             },150)
         }
     }
