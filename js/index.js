@@ -5,23 +5,27 @@
     const pause = document.querySelector('#pause');
     const gameMap = new GameMap(document.querySelector('.main'));
     let wsconn = window.wsconn;
+    // 点击开始游戏
     start.addEventListener('click',() => {
+        console.log(1);
         let startQueue = JSON.parse(localStorage.getItem('gameCode'));
-        let gameCode;
-        gameCode = startQueue ?  startQueue.gameCode : new Date().getTime();
+        // 获取当前的游戏码
+        let gameCode = startQueue ?  startQueue.gameCode : new Date().getTime();
         localStorage.setItem('gameCode',JSON.stringify({gameCode:gameCode}));
         sendStartGame(gameCode);
-        // gameMap.createMap();
     })
+    // 暂停游戏
     pause.addEventListener('click',() => {
         let flag = pause.getAttribute('data-id');
         console.log();
         if(flag == 'true'){
             gameMap.start();
             pause.setAttribute('data-id','false');
+            sendStopGame('start');
         }else{
             gameMap.pause();
             pause.setAttribute('data-id','true');
+            sendStopGame('pause');
         }
     })
     // 发送一个开始请求到后台
@@ -31,5 +35,10 @@
         sendMessage.message = 'gameStart';
         wsconn.sendPosition(JSON.stringify(sendMessage));
     }
-    // 获取连接状态
+    // 发送一个暂停按钮到后台
+    function sendStopGame(message){
+        let sendMessage = {};
+        sendMessage.message = message;
+        wsconn.sendPosition(JSON.stringify(sendMessage));
+    }
 })()

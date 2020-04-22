@@ -20,7 +20,6 @@
                     if(connectionState.type == 'startGame'){
                         // 构建地图
                         gameMap.createMap();
-                        console.log(connectionState.xDistance,connectionState.yDistance);
                         // 构建食物
                         let food = new global.food(
                             gameMap.atom,
@@ -30,7 +29,7 @@
                             document.querySelector('.gameMap'));
                         food.createFood(connectionState.xDistance,connectionState.yDistance);
                         global.food = food;
-                        // 构建蛇的位置
+                        // 初始化蛇的位置
                         let s1 = new snake(20,20,document.querySelector('.gameMap'),food);
                         global.s1 = s1;
                         s1.createSnake();
@@ -43,6 +42,11 @@
                     // 检测到食物被吃
                     if(connectionState.type == 'eatFood'){
                         global.food.createFood(connectionState.xDistance,connectionState.yDistance);
+                    }
+                    // 侦测蛇的移动位置改变
+                    if(connectionState.type == 'snakeRun'){
+                        console.log(`位置改变${connectionState.message}`);
+                        global.s1.setRunPosition(connectionState.message);
                     }
                 }
                 this.message = res;

@@ -43,13 +43,6 @@
         }
         // 蛇的运动
         run(){
-            // 监听方向接收服务端广播的值
-            wsconn.getPosition().then(res => {
-                res = JSON.parse(res);
-                if(res.type == 'snakeRun'){
-                    fangxaing = res.message;
-                }
-            })
             // 判断是否吃自己
             for (let i = 1; i < this.snakeArrs.length; i++) {
                 if(this.snakeArrs[0].x == this.snakeArrs[i].x && 
@@ -83,9 +76,9 @@
                 case 'bottom': this.snakeArrs[0].y+=1; break;
             }
             // 撞墙
-            if(this.snakeArrs[0].x * this.width > 780
+            if(this.snakeArrs[0].x * this.width > 380
                 || this.snakeArrs[0].x * this.width < 0
-                || this.snakeArrs[0].y * this.width > 580
+                || this.snakeArrs[0].y * this.width > 280
                 || this.snakeArrs[0].y * this.width < 0){
                 this.endGame();
                 return;
@@ -98,10 +91,15 @@
             }
             this.createSnake();   
         }
+        // 结束游戏
         endGame(){
-            window.clearInterval(window.time);
+            global.clearInterval(global.time);
             fangxaing = 'right';
             alert('游戏结束');
+        }
+        // 设置蛇的运动
+        setRunPosition(position){
+            fangxaing = position;
         }
     }
     // 获取键盘方向事件
