@@ -3,11 +3,9 @@
     window.time = time;
     const start = document.querySelector('#start');
     const pause = document.querySelector('#pause');
-    const gameMap = new GameMap(document.querySelector('.main'));
     let wsconn = window.wsconn;
     // 点击开始游戏
     start.addEventListener('click',() => {
-        console.log(1);
         let startQueue = JSON.parse(localStorage.getItem('gameCode'));
         // 获取当前的游戏码
         let gameCode = startQueue ?  startQueue.gameCode : new Date().getTime();
@@ -19,11 +17,9 @@
         let flag = pause.getAttribute('data-id');
         console.log();
         if(flag == 'true'){
-            gameMap.start();
             pause.setAttribute('data-id','false');
             sendStopGame('start');
         }else{
-            gameMap.pause();
             pause.setAttribute('data-id','true');
             sendStopGame('pause');
         }
